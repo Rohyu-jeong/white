@@ -1,40 +1,30 @@
 'use client';
 
-import RButtonC from '@/components/atom/RButtonC';
-import RCheckbox from '@/components/atom/RCheckbox';
-import RIcon from '@/components/atom/RIcon';
-import RInputText from '@/components/atom/RInputText';
+import ACheckbox from '@/components/atom/ACheckbox';
 import RText from '@/components/atom/RText';
 import TextualControlGroup from '@/components/molecules/TextualControlGroup';
-import { ShoppingCart } from '@mui/icons-material';
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import HomeIcon from '@mui/icons-material/Home';
+import { useState } from 'react';
 
 const Home = () => {
+  const [isChecked, setIsChecked] = useState(false);
   return (
     <main className="flex min-h-screen flex-col p-3 gap-10">
-      <RText text="가나다라" />
-      <RCheckbox />
-      <RIcon component={LocalShippingIcon} />
-      <RInputText />
-      <RButtonC content="임시" />
-
-      {/* Checkbox with text */}
-      <TextualControlGroup
-        component="RCheckbox"
-        controlprops={{ isCheck: false, onChange: () => alert('Checkbox clicked!') }}
-        textprops={{ text: 'Accept Terms' }}
-      />
-
-      {/* Icon with text */}
+      <div>
+        <RText text="할인적용" size="large" />
+        <ACheckbox textprops={{ text: '일반세척', size: 'large' }} />
+      </div>
       <TextualControlGroup
         component="RIcon"
-        controlprops={{ component: ShoppingCart }}
-        textprops={{ text: 'Add to Cart' }}
+        preveprops={{ icon: <HomeIcon /> }}
+        textprops={{ text: '할인적용', size: 'medium' }}
       />
-  {/* <TextualControlGroup
-  textprops={{ text: 'Just Text' }}
-/> */}
-
+      <TextualControlGroup
+        component="RCheckbox"
+        preveprops={{ isCheck: isChecked, onChange: () => setIsChecked(!isChecked) }}
+        textprops={{ text: '특이사항', size: 'medium' }}
+      />
+      <TextualControlGroup textprops={{ text: '건조기', size: 'large' }} />
     </main>
   );
 };

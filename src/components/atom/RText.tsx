@@ -1,12 +1,15 @@
+import { sizes } from '@/styles/sizes';
+import { TextType } from '@/util/textType';
 import { Typography } from '@mui/material';
 
+
 export type TextProps = {
-  text?: string;
-  size?: string;
+  text?: TextType;
+  size?: keyof typeof sizes.fontSize;
 };
 
-const RText = ({ text }: TextProps) => {
-  return <Typography>{text}</Typography>;
+const RText = ({ text, size = 'medium' }: TextProps) => {
+  return <Typography sx={{ fontSize: sizes.fontSize[size] }}>{text}</Typography>;
 };
 
 export default RText;

@@ -1,47 +1,46 @@
-import { sizes } from "@/styles/sizes";
-import RCheckbox, { CheckboxProps } from "../atom/RCheckbox";
-import RIcon, { IconProps } from "../atom/RIcon";
-import RText, { TextProps } from "../atom/RText";
+import React from 'react';
+import RCheckbox, { CheckboxProps } from '../atom/RCheckbox';
+import RIcon, { IconProps } from '../atom/RIcon';
+import RText, { TextProps } from '../atom/RText';
+import { Box } from '@mui/material';
 
-type ControlGroup = 'RCheckbox' | 'RIcon';
+type ComponentType = 'RIcon' | 'RCheckbox';
+type PrevProps = CheckboxProps | IconProps;
 
-type ControlGroupPropsMap = {
-  RCheckbox: CheckboxProps;
-  RIcon: IconProps;
-  text: never;
-};
-
-// BaseProps는 모든 경우에 공통으로 사용할 수 있는 props를 정의
-type BaseProps = {
+type TextualControlGroupProps = {
+  component?: ComponentType;
+  preveprops?: PrevProps;
   textprops?: TextProps;
-  size?: keyof typeof sizes.fontSize;
 };
 
-// ControlGroup과 해당하는 props를 함께 정의
-type TextualControlGroupProps<T extends ControlGroup> = BaseProps & {
-  component: T;
-  controlprops: ControlGroupPropsMap[T];
-};
+// type TextualControlGroupProps = {
+//   component: 'RCheckbox';
+//   preveprops: CheckboxProps;
+//   textprops: Omit<TextProps, 'text'> & { text: CheckboxTextType };
+// } | {
+//   component: 'RIcon';
+//   preveprops: IconProps;
+//   textprops: TextProps;
+// };
 
-// Component 매핑
-const componentMap = {
-  RCheckbox,
+// 컴포넌트 매핑
+const componentsMap = {
   RIcon,
+  RCheckbox,
 };
 
-const TextualControlGroup = <T extends ControlGroup>({
-  component,
-  controlprops,
-  textprops,
-}: TextualControlGroupProps<T>) => {
-  const Component = componentMap[component] as React.ComponentType<ControlGroupPropsMap[T]>;
+const TextualControlGroup = ({ component, preveprops, textprops }: TextualControlGroupProps) => {
+  // 선택된 컴포넌트 가져오기
+  const Component = component ? componentsMap[component] : null;
 
   return (
-    <div className="flex items-center gap-2">
-      <Component {...controlprops} />
-      {textprops?.text && <RText {...textprops} />}
-    </div>
+    <Box sx={{ display: 'flex', justifyContent: 'start', alignItems:'center', gap: '10px' }}>
+      {Component && <Component {...preveprops} />}
+      <RText {...textprops} />
+    </Box>
   );
 };
 
 export default TextualControlGroup;
+
+
